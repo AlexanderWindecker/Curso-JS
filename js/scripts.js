@@ -23,6 +23,7 @@ while (Opcion != "ESC") {
             break;
         default:
             alert("Elija un color");
+            break;
             
     }
 
