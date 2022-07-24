@@ -1,52 +1,59 @@
-//Primer desafio
+//Desafio complementario Array
 
-//Ejemplo numero 1
+const vinos = [{
+        id: 1,
+        Nombre: "Altos Las Hormigas Gualtallary",
+        Uva: "Malbec",
+        Ubicacion: "Valle de UCO",
+        Botella: "750ml",
+        Valor: "$261.000",
+    },
 
-/* let tuNumero = parseInt(prompt ("Ingrese su edad"));
-let numero = tuNumero+10;
+    {
+        ID: 10,
+        Nombre: "Kaiken Mai",
+        Uva: "Malbec",
+        Ubicacion: "Mendoza Argentina",
+        Botella: "750ml",
+        Valor: "$335.000",
+    },
 
-alert ("En 10 años tendras "  + numero +  " Años"); */
-
-//Ejercicio 2
-
-/* let Opcion = prompt("Elige un Opcion: \n1 Verde \n2 Lila \n3 Naranja \nPresiona ESC para salir");
-
-while (Opcion != "ESC") {
-
-    switch (Opcion) {
-        case "1":
-            alert("El color verde es un color secundario y se hace sumando el azul con el amarillo");
-            break;            
-        case "2":
-            alert("El color Lila es un color secundario y se hace sumando el Azul con el Rojo");
-            break;
-        case "3":
-            alert("El color Naranja es un color secundario y se hace sumando el Rojo con el Amarillo");
-            break;
-        default:
-            alert("Elija muchos colores color");
-            break;
-            
+    {
+        ID: 20,
+        Nombre: "Altos las Hormigas Reserva",
+        Uva: "Malbec",
+        Ubicacion: "Mendoza Argentina",
+        Botella: "750ml",
+        Valor: "$160.000",
+    },
+    {
+        ID: 30,
+        Nombre: "Kaiken Terror Malbec",
+        Uva: "Mixta",
+        Ubicacion: "Vista Flores-Mendoza",
+        Botella: "750ml",
+        Valor: "$91.000",
+    },
+    {
+        ID: 40,
+        Nombre: "Finca el Origen",
+        Uva: "Malbec",
+        Ubicacion: "Mendoza-Valle de Uco",
+        Botella: "750ml",
+        Valor: "$66.500",
     }
 
-} */
-
-// Ejemplo 3
-
-/* let numero1 = parseInt(prompt("Ingrese numero"));
-for (i=0; i < numero1; i++) {
-    alert("Hola");
-   
-} */
+]
+console.log(vinos)
 
 
 //Simulador interactivo. Segundo desafio.
 
 //Datos del cliente
-
+/* 
 let cuenta = parseFloat(prompt("Total de la cuenta"));
 
-if (cuenta <= 0) {
+while (cuenta <= 0) {
 
     alert("Defina total de la cuenta");
 
@@ -57,7 +64,7 @@ if (cuenta <= 0) {
 
 let porcentaje = prompt("Porcentaje de propina");
 
-if (porcentaje <= 0) {
+while (porcentaje <= 0) {
 
 
     alert("Por favor ingrese la propina")
@@ -70,13 +77,14 @@ if (porcentaje <= 0) {
 let comensales = prompt("cuantos comensales son?");
 
 
-if (comensales <= 0)
+while (comensales <= 0)
 
 {
 
     alert("Por favor ingrese la cantidad de comensales")
 
-    comensales = prompt("Por favor ingrese la cantidad de comensales?");}
+    comensales = prompt("Por favor ingrese la cantidad de comensales?");
+}
 
 
 //calculo
@@ -98,4 +106,4 @@ let resultado2 = resultado1 + cuenta / comensales
 
 alert("Propina por comensal $" + resultado1);
 
-alert("Total $" + resultado2 + " por comensal");
+alert("Total $" + resultado2 + " por comensal"); */
