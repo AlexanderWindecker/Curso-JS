@@ -46,6 +46,18 @@ const vinos = [{
 ]
 console.log(vinos)
 
+let ID = prompt ("Agregar identificatorio");
+let Nombre = prompt ("Nombre del Vino");
+let Uva = prompt ("Tipo de uva");
+let Ubicacion = prompt ("Agregar ubicacion");
+let Botella = prompt ("Agregar tamaño");
+let Valor = parseInt(prompt("Agrega valor"));
+
+let vino={ID,Nombre,Uva,Ubicacion,Botella,Valor}
+vinos.push(vino)
+
+
+
 
 //Simulador interactivo. Segundo desafio.
 
