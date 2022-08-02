@@ -1,4 +1,5 @@
-//Primera entrega del Proyecto final
+//Sumando DOM
+
 
 const vinos = [{
         ID: 10,
@@ -50,7 +51,7 @@ const vinos = [{
 let carrito = []
 
 
-let Hola = prompt("Hola gracias por visitarnos, desea ver nuestros catalogo? \n -Si \n -No")
+/* let Hola = prompt("Hola gracias por visitarnos, desea ver nuestros catalogo? \n -Si \n -No")
 
 while (Hola != "Si" && Hola != "No") {
 
@@ -136,33 +137,41 @@ const total = carrito.reduce((acc, el) => acc + el.Precio * el.unidades, 0);
 
 let opciones = prompt("El total a pagar es de: $" + total + " quiere abonarlo en cuotas? \n -Si \n -No")
 
+
+
 if (opciones == "No") {
 
     alert("El total de su compra es de $" + total + " Gracias por su compra vuelva pronto");
 
 }
 
+
+
 while (opciones == "Si") {
 
     let definirCuotas = prompt("Puede hacerlo en: \nB -3 cuotas s/interes, \nC -6 cuotas s/interes,  \nD -12 cuotas s/interes ");
 
+   
 
     if (definirCuotas == "B" || definirCuotas == "C" || definirCuotas == "D") {
         switch (definirCuotas) {
             case "B":
-                let cuotas = dividir(total, 3);
-                alert("Su compra en 3 cuotas le queda en $" + Math.ceil(cuotas) + " Gracias por su compra");
+                cuotas = total / 3;
+               
+               alert  ("Su compra en 3 cuotas le queda en $" + Math.ceil(cuotas) + " C/U");
                 break;
             case "C":
                 let cuotasSeis = dividir(total, 6);
-                alert("Su compra en 6 cuotas le queda en $" + Math.ceil(cuotasSeis) + " Gracias por su compra");
+
+                alert("Su compra en 6 cuotas le queda en $" + Math.ceil(cuotasSeis) + " C/U");
                 break;
             case "D":
                 let cuotasDoce = dividir(total, 12);
-                alert("Su compra en 12 cuotas le queda en $" + Math.ceil(cuotasDoce) + " Gracias por su compra");
+
+                alert("Su compra en 12 cuotas le queda en $" + Math.ceil(cuotasDoce) + " C/U");
                 break;
             default:
-                alert("Opcion invalida")
+                mensaje = ("Opcion invalida")
                 break;
         }
 
@@ -172,11 +181,94 @@ while (opciones == "Si") {
 
     if (cierre === "No") {
 
-        alert("Gracias por su compra, vuelva pronto")
+
         break;
     }
 
 }
+ */
+
+//Eventos
+
+
+function unsaludo () {
+    alert ("Demasiado caro para tu bolsillo")
+
+}
+
+const saludo1 = document.getElementById("boton");
+
+saludo1.addEventListener("click", unsaludo);
+
+//.............................................
+
+function unsaludo2 () {
+    alert ("No no, este no")
+
+}
+
+const saludo2 = document.getElementById("botonTroll2");
+
+saludo2.addEventListener("click", unsaludo2);
+
+//...............................................
+
+function unsaludo3 () {
+    alert ("Este vino es feo")
+
+}
+
+const saludo3 = document.getElementById("botonTroll3");
+
+saludo3.addEventListener("click", unsaludo3);
+
+//..............................................
+
+function unsaludo4 () {
+    alert ("Te parece este?")
+
+}
+
+const saludo4 = document.getElementById("botonTroll4");
+
+saludo4.addEventListener("click", unsaludo4);
+
+//..............................................
+
+function unsaludo5 () {
+    alert ("Este es el ideal para ti")
+
+}
+
+const saludo5 = document.getElementById("botonTroll5");
+
+saludo5.addEventListener("click", unsaludo5);
+
+//..............................................
+
+//Eventos
+
+
+
+//DOM
+
+
+let mensajecliente = document.createElement("h2");
+mensajecliente.innerHTML = "<h2>Gracias por visitarnos, no vuelva pronto</h2>";
+document.body.append(mensajecliente);
+
+let mensajecliente1 = document.createElement("h2");
+mensajecliente1.innerHTML = "<h2>Va en realidad regrese y riase un rato</h2>";
+document.body.append(mensajecliente1);
+
+let mensajecliente2 = document.createElement("h2");
+mensajecliente2.innerHTML = "<h2>Total no va a comprar nada si esta todo re caro jajajaja</h2>";
+document.body.append(mensajecliente2);
+
+
+//DOM
+
+
 
 function dividir(a, b) {
     return a / b;
