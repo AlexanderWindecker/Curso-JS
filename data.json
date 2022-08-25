@@ -1,0 +1,43 @@
+ [    
+    {
+    "id": 1,
+    "nombre": "Altos Las Hormigas Gualtallary",
+    "precio": 261000,
+    "imagen": "./img/producto0.jpg",
+    "Uva": "Malbec",
+    "Ubicacion": "Valle de UCO"
+    
+},
+{
+    "id": 2,
+    "nombre": "Kaiken Mai",
+    "precio": 335000,
+    "imagen": "./img/producto1.jpg",
+    "Uva": "Malbec",
+    "Ubicacion": "Mendoza Argentina"
+},
+{
+    "id": 3,
+    "nombre": "Altos las Hormigas Reserva",
+    "precio": 160000,
+    "imagen": "./img/producto2.jpg",
+    "Uva": "Mixto",
+    "Ubicacion": "Mendoza Argentina"
+},
+{
+    "id": 4,
+    "nombre": "Kaiken Terror Malbec",
+    "precio": 91000,
+    "imagen": "./img/producto3.jpg",
+    "Uva": "Mixto",
+    "Ubicacion": "Vista Flores-Mendoza"
+},
+{
+    "id": 5,
+    "nombre": "Finca el Origen",
+    "precio": 65000,
+    "imagen": "./img/producto4.jpg",
+    "Uva": "Malbec",
+    "Ubicacion": "Mendoza-Valle de Uco"
+}
+]
