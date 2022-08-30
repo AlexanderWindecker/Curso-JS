@@ -39,5 +39,13 @@
     "imagen": "./img/producto4.jpg",
     "Uva": "Malbec",
     "Ubicacion": "Mendoza-Valle de Uco"
+},
+{
+    "id": 6,
+    "nombre": "Finca el Valle",
+    "precio": 45000,
+    "imagen": "./img/producto4.jpg",
+    "Uva": "Malbec",
+    "Ubicacion": "Mendoza-Valle de Uco"
 }
 ]

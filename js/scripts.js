@@ -1,241 +1,188 @@
-/* const stockProductos = [{
-        id: 1,
-        nombre: 'Altos Las Hormigas Gualtallary',
-        precio: 261000,
-        imagen: './img/producto0.jpg',
-        Uva: "Malbec",
-        Ubicacion: "Valle de UCO",
-        Stock: 18,
-    },
-    {
-        id: 2,
-        nombre: 'Kaiken Mai',
-        precio: 335000,
-        imagen: './img/producto1.jpg',
-        Uva: "Malbec",
-        Ubicacion: "Mendoza Argentina",
-    },
-    {
-        id: 3,
-        nombre: 'Altos las Hormigas Reserva',
-        precio: 160000,
-        imagen: './img/producto2.jpg',
-        Uva: "Malbec",
-        Ubicacion: "Mendoza Argentina",
-    },
-    {
-        id: 4,
-        nombre: 'Kaiken Terror Malbec',
-        precio: 91000,
-        imagen: './img/producto3.jpg',
-        Uva: "Mixto",
-        Ubicacion: "Vista Flores-Mendoza",
-    },
-    {
-        id: 5,
-        nombre: 'Finca el Origen',
-        precio: 65000,
-        imagen: './img/producto4.jpg',
-        Uva: "Malbec",
-        Ubicacion: "Mendoza-Valle de Uco",
-    }
-] */
-
-
-
-const contenedorProductos = document.getElementById('contenedor-productos')
-
-const contenedorCarrito = document.getElementById('carrito-contenedor')
-
-const botonVaciar = document.getElementById('vaciar-carrito')
-
-const contadorCarrito = document.getElementById('contadorCarrito')
-
-const cantidad = document.getElementById('cantidad')
-const precioTotal = document.getElementById('precioTotal')
-const cantidadTotal = document.getElementById('cantidadTotal')
-
-
-let carrito = []
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('carrito')) {
-        carrito = JSON.parse(localStorage.getItem('carrito'))
-        actualizarCarrito()
+    fetchData()
+})
+
+const fetchData = async () => {
+    try {
+        const res = await fetch('data.json')
+        const data = await res.json()
+
+        pintarProductos(data)
+        detectarBotones(data)
+    } catch (error) {
+        console.log(error);
     }
-})
+}
 
-
-
-
-//Alerta libreria
-botonVaciar.addEventListener('click', () => {
-
-    swal.fire({
-        title: '¡¡Cuidado!!',
-        text: 'Usted va a vaciar su carrito!',
-        icon: 'warning',
-        iconColor: "red",
-        showCancelButton: true,
-
-    }).then((result) => {
-
-        if (result.isConfirmed) {
-            carrito.length = 0
-            actualizarCarrito()
-            Swal.fire('Se vacio su carrito')
-        }
+const contendorProductos = document.querySelector('#contenedor-productos')
+const pintarProductos = (data) => {
+    const template = document.querySelector('#template-productos').content
+    const fragment = document.createDocumentFragment()
+    // console.log(template)
+    data.forEach(producto => {
+        // console.log(producto)
+        template.querySelector('img').setAttribute('src', producto.imagen)
+        template.querySelector('h5').textContent = producto.nombre
+        template.querySelector('p span').textContent = producto.precio
+        template.querySelector('button').dataset.id = producto.id
+        const clone = template.cloneNode(true)
+        fragment.appendChild(clone)
     })
-})
+    contendorProductos.appendChild(fragment)
+}
 
+let carrito = {}
 
-//Alerta libreria
-
-
-//JSON.................................................................................
-
-function mostrarProductos() {
-
-    fetch('data.json')
-
-        .then((response) => response.json())
-        .then((stockProductos) => {
-            stockProductos.forEach((producto) => {
-                const div = document.createElement('div')
-                div.classList.add('producto')
-                div.className = "card d-flex col-2 "
-                div.innerHTML = `
-            <img src=${producto.imagen} alt= "" class="card-img-top">
-            <h3>${producto.nombre}</h3>            
-            <p class="precioProducto">Precio:$ ${producto.precio}</p>
-            <button id="agregar${producto.id}" class="boton-agregar bg-danger">Comprar <i class="fas fa-shopping-cart"></i></button>
-            `
-                contenedorProductos.appendChild(div)
-
-
-                const boton = document.getElementById(`agregar${producto.id}`)
-
-                boton.addEventListener('click', () => {
-
-                    agregarAlCarrito(producto.id)
-
-                })
-
-            })
-
+const detectarBotones = (data) => {
+    const botones = document.querySelectorAll('.card button')
+    botones.forEach(btn => {
+        btn.addEventListener('click', () => {
+            //console.log(btn.dataset.id)
+            const producto = data.find(item => item.id === parseInt(btn.dataset.id))
+            producto.cantidad = 1
+            if (carrito.hasOwnProperty(producto.id)) {
+                producto.cantidad = carrito[producto.id].cantidad + 1
+            }
+            carrito[producto.id] = {
+                ...producto
+            }
+            console.log('carrito', carrito)
+            pintarCarrito()
         })
+    })
+}
+
+
+const items = document.querySelector('#items')
+
+const pintarCarrito = () => {
+
+    //pendiente innerHTML
+    items.innerHTML = ''
+
+    const template = document.querySelector('#template-carrito').content
+    const fragment = document.createDocumentFragment()
+
+    Object.values(carrito).forEach(producto => {
+        // console.log('producto', producto)
+        template.querySelector('th').textContent = producto.id
+        template.querySelectorAll('td')[0].textContent = producto.nombre
+        template.querySelectorAll('td')[1].textContent = producto.cantidad
+        template.querySelector('span').textContent = producto.precio * producto.cantidad
+
+        //botones
+        template.querySelector('.btn-info').dataset.id = producto.id
+        template.querySelector('.btn-danger').dataset.id = producto.id
+
+        const clone = template.cloneNode(true)
+        fragment.appendChild(clone)
+    })
+
+    items.appendChild(fragment)
+
+    pintarFooter()
+    accionBotones()
 
 }
 
-mostrarProductos();
+const footer = document.querySelector('#footer-carrito')
+const pintarFooter = () => {
 
-//JSON.................................................................................
+    footer.innerHTML = ''
+
+    if (Object.keys(carrito).length === 0) {
+        footer.innerHTML = `
+        <th scope="row" colspan="5">Carrito vacío con innerHTML</th>
+        `
+        return
+    }
+
+    const template = document.querySelector('#template-footer').content
+    const fragment = document.createDocumentFragment()
+
+    // sumar cantidad y sumar totales
+    const nCantidad = Object.values(carrito).reduce((acc, {
+        cantidad
+    }) => acc + cantidad, 0)
+    const nPrecio = Object.values(carrito).reduce((acc, {
+        cantidad,
+        precio
+    }) => acc + cantidad * precio, 0)
+    // console.log(nPrecio)
+
+    template.querySelectorAll('td')[0].textContent = nCantidad
+    template.querySelector('span').textContent = nPrecio
+
+    contadorCarrito.innerText = Object.values(carrito).reduce((acc, {
+        cantidad
+    }) => acc + cantidad, 0)
+
+    precioTotal.innerText = Object.values(carrito).reduce((acc, {
+        cantidad,
+        precio
+    }) => acc + cantidad * precio, 0)
+
+    const clone = template.cloneNode(true)
+    fragment.appendChild(clone)
+
+    footer.appendChild(fragment)
 
 
-//asi estaba antes de json.............................................................
-
-/* stockProductos.forEach((producto) => {
-    const div = document.createElement('div')
-    div.classList.add('producto')
-    div.className = "card d-flex col-2 "
-    div.innerHTML = `
-    <img src=${producto.imagen} alt= "" class="card-img-top">
-    <h3>${producto.nombre}</h3>
-    
-    <p class="precioProducto">Precio:$ ${producto.precio}</p>
-    <button id="agregar${producto.id}" class="boton-agregar bg-danger">Comprar <i class="fas fa-shopping-cart"></i></button>
-    `
-    contenedorProductos.appendChild(div)
-
-    const boton = document.getElementById(`agregar${producto.id}`)
-
+    const boton = document.querySelector('#vaciar-carrito')
     boton.addEventListener('click', () => {
+        swal.fire({
+            title: '¡¡Cuidado!!',
+            text: 'Usted va a vaciar su carrito!',
+            icon: 'warning',
+            iconColor: "red",
+            showCancelButton: true,
 
-        agregarAlCarrito(producto.id)
+        }).then((result) => {
 
-    })
-}) */
-
-
-//asi estaba antes de json...........................................................
-
-//AGREGO AL CARRITO
-const agregarAlCarrito = (prodId) => {
-
-    const existe = carrito.some(prod => prod.id === prodId)
-
-    if (existe) {
-        const prod = carrito.map(prod => {
-            if (prod.id === prodId) {
-                prod.cantidad++
+            if (result.isConfirmed) {
+                carrito = {}
+                pintarCarrito()
+                Swal.fire('Se vacio su carrito')
             }
         })
-    } else {
-        const item = stockProductos.find((prod) => prod.id === prodId)
-        carrito.push(item)
-    }
-
-    actualizarCarrito()
-}
-
-const eliminarDelCarrito = (prodId) => {
-    const item = carrito.find((prod) => prod.id === prodId)
-
-    const indice = carrito.indexOf(item)
-
-    carrito.splice(indice, 1)
-
-    actualizarCarrito()
-
-}
-
-const actualizarCarrito = () => {
-
-    contenedorCarrito.innerHTML = ""
-
-    carrito.forEach((prod) => {
-        const div = document.createElement('div')
-        div.className = ('productoEnCarrito')
-        div.innerHTML = `
-        <p>${prod.nombre}</p>
-        <p>Precio:$${prod.precio}</p>
-        <p>Cantidad: <span id="cantidad">${prod.cantidad}</span></p>
-        <button onclick="eliminarDelCarrito(${prod.id})" class="boton-eliminar"><i class="fas fa-trash-alt"></i></button>
-        `
-
-        contenedorCarrito.appendChild(div)
-
-        localStorage.setItem('carrito', JSON.stringify(carrito))
 
     })
 
-    contadorCarrito.innerText = carrito.reduce((acc, prod) => acc + prod.cantidad, 0)
-
-    precioTotal.innerText = carrito.reduce((acc, prod) => acc + prod.cantidad * prod.precio, 0)
-
 }
 
-//modal
-
-const contenedorModal = document.getElementsByClassName('modal-contenedor')[0]
-const botonAbrir = document.getElementById('boton-carrito')
-const botonCerrar = document.getElementById('carritoCerrar')
-const modalCarrito = document.getElementsByClassName('modal-carrito')[0]
 
 
-botonAbrir.addEventListener('click', () => {
-    contenedorModal.classList.toggle('modal-active')
-})
-botonCerrar.addEventListener('click', () => {
-    contenedorModal.classList.toggle('modal-active')
-})
+const accionBotones = () => {
+    const botonesAgregar = document.querySelectorAll('#items .btn-info')
+    const botonesEliminar = document.querySelectorAll('#items .btn-danger')
 
-contenedorModal.addEventListener('click', (event) => {
-    contenedorModal.classList.toggle('modal-active')
+    // console.log(botonesAgregar)
 
-})
-modalCarrito.addEventListener('click', (event) => {
-    event.stopPropagation()
-})
+    botonesAgregar.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // console.log(btn.dataset.id)
+            const producto = carrito[btn.dataset.id]
+            producto.cantidad++
+            carrito[btn.dataset.id] = {
+                ...producto
+            }
+            pintarCarrito()
+        })
+    })
+
+    botonesEliminar.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // console.log('eliminando...')
+            const producto = carrito[btn.dataset.id]
+            producto.cantidad--
+            if (producto.cantidad === 0) {
+                delete carrito[btn.dataset.id]
+            } else {
+                carrito[btn.dataset.id] = {
+                    ...producto
+                }
+            }
+            pintarCarrito()
+        })
+    })
+}
